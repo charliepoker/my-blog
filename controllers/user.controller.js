@@ -12,7 +12,6 @@ const getAllUser = async (req, res) => {
 
 
 
-
 // Get a user
 const getUser = async (req, res) => {
   const user = await models.User.findOne({ where: { id: req.params.id } });

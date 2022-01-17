@@ -4,7 +4,14 @@ const CustomError = require("../errors");
 
 // Create a Post
 const createPost = async (req, res, next) => {
-  res.send("create post route");
+  if (!req.body.title || !req.body.content) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Please provide title and content" });
+  }
+  const post = await models.Post.create(req.body);
+
+  res.status(StatusCodes.CREATED).json({ message: "Post created", post });
 };
 // Get all Posts
 const getAllPost = async (req, res) => {
@@ -56,17 +63,13 @@ const updatePost = async (req, res) => {
   res.status(StatusCodes.OK).json({ post });
 };
 
-
 // Incomplete
-// Get posts by a user 
+// Get posts by a user
 const getUserPost = async (req, res) => {
   const post = await models.Post.findAll({ where: { userId: req.params.id } });
-  
-
 
   res.status(StatusCodes.OK).json({ post });
 };
-
 
 module.exports = {
   getAllPost,
