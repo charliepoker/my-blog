@@ -1,5 +1,5 @@
 ("use strict");
-const bcrypt = require("bcrypt");
+
 
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
@@ -38,14 +38,5 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  User.beforeSave(async (user, options) => {
-    if (user.password) {
-      user.password = bcrypt.hashSync(user.password, bcrypt.genSalt(10), null);
-    }
-  });
-  User.prototype.comparePassword = async function (canditatePassword) {
-    const isMatch = await bcrypt.compare(canditatePassword, this.password);
-    return isMatch;
-  };
   return User;
 };

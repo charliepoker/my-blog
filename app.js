@@ -2,6 +2,8 @@ require("dotenv").config();
 
 // Set up the express app
 const express = require("express");
+const cookieParser = require("cookie-parser");
+
 const app = express();
 
 app.use(express.json());
@@ -9,6 +11,8 @@ app.use(express.json());
 // Log requests to the console.
 const logger = require("morgan");
 app.use(logger("dev"));
+
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 const userRouter = require("./routes/user.routes");
 const postRouter = require("./routes/post.routes");
